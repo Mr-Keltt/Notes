@@ -27,11 +27,9 @@ namespace Notes.Context.Migrations.PgSql.Migrations
 
             modelBuilder.Entity("Notes.Context.Entities.NoteDataEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Uid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("DateСhange")
                         .HasColumnType("timestamp with time zone");
@@ -39,20 +37,17 @@ namespace Notes.Context.Migrations.PgSql.Migrations
                     b.Property<bool>("Marked")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Text")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("Uid")
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
+                    b.HasKey("Uid");
 
                     b.HasIndex("Uid")
                         .IsUnique();
@@ -64,23 +59,18 @@ namespace Notes.Context.Migrations.PgSql.Migrations
 
             modelBuilder.Entity("Notes.Context.Entities.PhotoEntity", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("NoteDataId")
-                        .HasColumnType("integer");
-
                     b.Property<Guid>("Uid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("NoteDataId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Url")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("Uid");
 
                     b.HasIndex("NoteDataId");
 
@@ -92,16 +82,11 @@ namespace Notes.Context.Migrations.PgSql.Migrations
 
             modelBuilder.Entity("Notes.Context.Entities.UserEntity", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
                     b.Property<Guid>("Uid")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.HasKey("Id");
+                    b.HasKey("Uid");
 
                     b.HasIndex("Uid")
                         .IsUnique();

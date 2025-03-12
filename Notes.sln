@@ -33,13 +33,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notes.Services.Logger", "Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notes.Services.Settings", "Application\Services\Notes.Services.Settings\Notes.Services.Settings.csproj", "{75AA5134-BA35-43D3-8A28-85E71567AB4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Context", "Infrastructure\Data\Notes.Context\Notes.Context.csproj", "{74307E19-677A-4A35-9F43-0633586A5B53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notes.Context", "Infrastructure\Data\Notes.Context\Notes.Context.csproj", "{74307E19-677A-4A35-9F43-0633586A5B53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Entities", "Infrastructure\Repositories\Notes.Entities\Notes.Entities.csproj", "{F02880C3-F0D1-45D5-844C-6B19271BA2E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notes.Entities", "Infrastructure\Repositories\Notes.Entities\Notes.Entities.csproj", "{F02880C3-F0D1-45D5-844C-6B19271BA2E1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrations", "Migrations", "{E81CB665-6C11-4CCC-92AC-A303468909F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Context.Migrations.PgSql", "Infrastructure\Data\Migrations\Notes.Context.Migrations.PgSql\Notes.Context.Migrations.PgSql.csproj", "{885CA762-78D0-4F1C-A5EE-1BE4C1BE63C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notes.Context.Migrations.PgSql", "Infrastructure\Data\Migrations\Notes.Context.Migrations.PgSql\Notes.Context.Migrations.PgSql.csproj", "{885CA762-78D0-4F1C-A5EE-1BE4C1BE63C1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notes.Models", "Application\Models\Notes.Models\Notes.Models.csproj", "{ECB4FB8A-EA19-46A4-999F-999734B259A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.API.Tests", "Tests\Notes.API.Tests\Notes.API.Tests.csproj", "{AD3707DD-886F-4257-B8B2-5FF2A8970BD6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Services.User", "Application\Services\Notes.Services.User\Notes.Services.User.csproj", "{2549646C-8E6A-48F4-8166-24A85689FD3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Application.Tests", "Tests\Notes.Application.Tests\Notes.Application.Tests.csproj", "{39AADF4F-9CCF-44EF-B8FE-381DF52383A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Services.Photo", "Application\Services\Notes.Services.Photo\Notes.Services.Photo.csproj", "{D155E726-B86A-4EBB-A761-C940F9777279}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Services.NoteData", "Application\Services\Notes.Services.NoteData\Notes.Services.NoteData.csproj", "{B1DDB0CA-20E0-48F6-AFB3-59174A008F2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +87,30 @@ Global
 		{885CA762-78D0-4F1C-A5EE-1BE4C1BE63C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{885CA762-78D0-4F1C-A5EE-1BE4C1BE63C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{885CA762-78D0-4F1C-A5EE-1BE4C1BE63C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECB4FB8A-EA19-46A4-999F-999734B259A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECB4FB8A-EA19-46A4-999F-999734B259A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECB4FB8A-EA19-46A4-999F-999734B259A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECB4FB8A-EA19-46A4-999F-999734B259A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD3707DD-886F-4257-B8B2-5FF2A8970BD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD3707DD-886F-4257-B8B2-5FF2A8970BD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD3707DD-886F-4257-B8B2-5FF2A8970BD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD3707DD-886F-4257-B8B2-5FF2A8970BD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2549646C-8E6A-48F4-8166-24A85689FD3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2549646C-8E6A-48F4-8166-24A85689FD3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2549646C-8E6A-48F4-8166-24A85689FD3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2549646C-8E6A-48F4-8166-24A85689FD3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39AADF4F-9CCF-44EF-B8FE-381DF52383A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39AADF4F-9CCF-44EF-B8FE-381DF52383A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39AADF4F-9CCF-44EF-B8FE-381DF52383A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39AADF4F-9CCF-44EF-B8FE-381DF52383A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D155E726-B86A-4EBB-A761-C940F9777279}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D155E726-B86A-4EBB-A761-C940F9777279}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D155E726-B86A-4EBB-A761-C940F9777279}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D155E726-B86A-4EBB-A761-C940F9777279}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1DDB0CA-20E0-48F6-AFB3-59174A008F2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1DDB0CA-20E0-48F6-AFB3-59174A008F2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1DDB0CA-20E0-48F6-AFB3-59174A008F2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1DDB0CA-20E0-48F6-AFB3-59174A008F2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +130,12 @@ Global
 		{F02880C3-F0D1-45D5-844C-6B19271BA2E1} = {C22DBC6E-247D-4AF6-A7CA-25AAF607EBC1}
 		{E81CB665-6C11-4CCC-92AC-A303468909F2} = {3CCA913A-E3FB-4C81-A331-EF7A5479DBCA}
 		{885CA762-78D0-4F1C-A5EE-1BE4C1BE63C1} = {E81CB665-6C11-4CCC-92AC-A303468909F2}
+		{ECB4FB8A-EA19-46A4-999F-999734B259A3} = {91A0058B-27AC-4462-BB53-C8018170DBF7}
+		{AD3707DD-886F-4257-B8B2-5FF2A8970BD6} = {25C4899F-454E-4DF2-929D-406166120F50}
+		{2549646C-8E6A-48F4-8166-24A85689FD3B} = {C67F86F8-8959-4ACB-AA91-9C2D55D4940B}
+		{39AADF4F-9CCF-44EF-B8FE-381DF52383A7} = {25C4899F-454E-4DF2-929D-406166120F50}
+		{D155E726-B86A-4EBB-A761-C940F9777279} = {C67F86F8-8959-4ACB-AA91-9C2D55D4940B}
+		{B1DDB0CA-20E0-48F6-AFB3-59174A008F2F} = {C67F86F8-8959-4ACB-AA91-9C2D55D4940B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3EEF6ADC-D4A4-498A-ADCB-CF571C37134C}

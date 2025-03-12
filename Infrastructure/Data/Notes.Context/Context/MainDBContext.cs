@@ -5,9 +5,9 @@ namespace Notes.Context;
 
 public class MainDbContext : DbContext
 {
-    public DbSet<UserEntity> Users { get; set; }
-    public DbSet<NoteDataEntity> NotesDatas { get; set; }
-    public DbSet<PhotoEntity> Photos { get; set; }
+    public virtual DbSet<UserEntity> Users { get; set; }
+    public virtual DbSet<NoteDataEntity> NotesDatas { get; set; }
+    public virtual DbSet<PhotoEntity> Photos { get; set; }
     
     public MainDbContext(DbContextOptions<MainDbContext> options) : base(options) { }
 

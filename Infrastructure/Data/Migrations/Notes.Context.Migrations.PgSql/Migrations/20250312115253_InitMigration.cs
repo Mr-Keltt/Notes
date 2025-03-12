@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -16,36 +15,32 @@ namespace Notes.Context.Migrations.PgSql.Migrations
                 name: "users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Uid = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_users", x => x.Id);
+                    table.PrimaryKey("PK_users", x => x.Uid);
                 });
 
             migrationBuilder.CreateTable(
                 name: "notes_datas",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Uid = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
                     Text = table.Column<string>(type: "text", nullable: true),
                     DateСhange = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Marked = table.Column<bool>(type: "boolean", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    Uid = table.Column<Guid>(type: "uuid", nullable: false)
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_notes_datas", x => x.Id);
+                    table.PrimaryKey("PK_notes_datas", x => x.Uid);
                     table.ForeignKey(
                         name: "FK_notes_datas_users_UserId",
                         column: x => x.UserId,
                         principalTable: "users",
-                        principalColumn: "Id",
+                        principalColumn: "Uid",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -53,20 +48,18 @@ namespace Notes.Context.Migrations.PgSql.Migrations
                 name: "photos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    NoteDataId = table.Column<int>(type: "integer", nullable: false),
-                    Url = table.Column<string>(type: "text", nullable: false),
-                    Uid = table.Column<Guid>(type: "uuid", nullable: false)
+                    Uid = table.Column<Guid>(type: "uuid", nullable: false),
+                    NoteDataId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Url = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_photos", x => x.Id);
+                    table.PrimaryKey("PK_photos", x => x.Uid);
                     table.ForeignKey(
                         name: "FK_photos_notes_datas_NoteDataId",
                         column: x => x.NoteDataId,
                         principalTable: "notes_datas",
-                        principalColumn: "Id",
+                        principalColumn: "Uid",
                         onDelete: ReferentialAction.Cascade);
                 });
 

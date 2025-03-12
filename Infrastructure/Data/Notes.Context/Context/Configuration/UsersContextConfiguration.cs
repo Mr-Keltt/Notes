@@ -11,7 +11,7 @@ public static class UsersContextConfiguration
         {
             entity.ToTable("users");
 
-            entity.HasKey(e => e.Id);
+            entity.HasKey(e => e.Uid);
             entity.HasIndex(e => e.Uid).IsUnique();
 
             entity.HasMany(e => e.NotesDatas)
