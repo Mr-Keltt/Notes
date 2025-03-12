@@ -31,8 +31,8 @@ public static class NotesDataContextConfiguration
                       .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasMany(e => e.Photos)
-                      .WithOne(p => p.NotesData)
-                      .HasForeignKey(p => p.NotesDataId)
+                      .WithOne(p => p.NoteData)
+                      .HasForeignKey(p => p.NoteDataId)
                       .OnDelete(DeleteBehavior.Cascade);
         });
     }

@@ -16,12 +16,12 @@ public static class PhotosContextConfiguration
 
             entity.Property(e => e.Url)
                       .IsRequired();
-            entity.Property(e => e.NotesDataId)
+            entity.Property(e => e.NoteDataId)
                   .IsRequired();
 
-            entity.HasOne(e => e.NotesData)
+            entity.HasOne(e => e.NoteData)
                       .WithMany(n => n.Photos)
-                      .HasForeignKey(e => e.NotesDataId)
+                      .HasForeignKey(e => e.NoteDataId)
                       .OnDelete(DeleteBehavior.Cascade);
         });
     }

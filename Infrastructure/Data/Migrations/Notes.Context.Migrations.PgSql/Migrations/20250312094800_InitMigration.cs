@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Notes.Context.Migrations.PgSql.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -55,7 +55,7 @@ namespace Notes.Context.Migrations.PgSql.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    NotesDataId = table.Column<int>(type: "integer", nullable: false),
+                    NoteDataId = table.Column<int>(type: "integer", nullable: false),
                     Url = table.Column<string>(type: "text", nullable: false),
                     Uid = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -63,8 +63,8 @@ namespace Notes.Context.Migrations.PgSql.Migrations
                 {
                     table.PrimaryKey("PK_photos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_photos_notes_datas_NotesDataId",
-                        column: x => x.NotesDataId,
+                        name: "FK_photos_notes_datas_NoteDataId",
+                        column: x => x.NoteDataId,
                         principalTable: "notes_datas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -82,9 +82,9 @@ namespace Notes.Context.Migrations.PgSql.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_photos_NotesDataId",
+                name: "IX_photos_NoteDataId",
                 table: "photos",
-                column: "NotesDataId");
+                column: "NoteDataId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_photos_Uid",

@@ -70,7 +70,7 @@ namespace Notes.Context.Migrations.PgSql.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("NotesDataId")
+                    b.Property<int>("NoteDataId")
                         .HasColumnType("integer");
 
                     b.Property<Guid>("Uid")
@@ -82,7 +82,7 @@ namespace Notes.Context.Migrations.PgSql.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NotesDataId");
+                    b.HasIndex("NoteDataId");
 
                     b.HasIndex("Uid")
                         .IsUnique();
@@ -122,13 +122,13 @@ namespace Notes.Context.Migrations.PgSql.Migrations
 
             modelBuilder.Entity("Notes.Context.Entities.PhotoEntity", b =>
                 {
-                    b.HasOne("Notes.Context.Entities.NoteDataEntity", "NotesData")
+                    b.HasOne("Notes.Context.Entities.NoteDataEntity", "NoteData")
                         .WithMany("Photos")
-                        .HasForeignKey("NotesDataId")
+                        .HasForeignKey("NoteDataId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("NotesData");
+                    b.Navigation("NoteData");
                 });
 
             modelBuilder.Entity("Notes.Context.Entities.NoteDataEntity", b =>
