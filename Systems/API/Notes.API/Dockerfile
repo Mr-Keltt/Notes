@@ -13,6 +13,9 @@ COPY ["Systems/API/Notes.API/Notes.API.csproj", "Systems/API/Notes.API/"]
 COPY ["Application/Services/Notes.Services.Logger/Notes.Services.Logger.csproj", "Application/Services/Notes.Services.Logger/"]
 COPY ["Application/Services/Notes.Services.Settings/Notes.Services.Settings.csproj", "Application/Services/Notes.Services.Settings/"]
 COPY ["Shared/Notes.Common/Notes.Common.csproj", "Shared/Notes.Common/"]
+COPY ["Infrastructure/Data/Migrations/Notes.Context.Migrations.PgSql/Notes.Context.Migrations.PgSql.csproj", "Infrastructure/Data/Migrations/Notes.Context.Migrations.PgSql/"]
+COPY ["Infrastructure/Data/Notes.Context/Notes.Context.csproj", "Infrastructure/Data/Notes.Context/"]
+COPY ["Infrastructure/Repositories/Notes.Entities/Notes.Entities.csproj", "Infrastructure/Repositories/Notes.Entities/"]
 RUN dotnet restore "./Systems/API/Notes.API/Notes.API.csproj"
 COPY . .
 WORKDIR "/src/Systems/API/Notes.API"

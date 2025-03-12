@@ -16,6 +16,10 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.2" />
     <PackageReference Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="9.0.0" />
@@ -27,6 +31,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Application\Services\Notes.Services.Logger\Notes.Services.Logger.csproj" />
     <ProjectReference Include="..\..\..\Application\Services\Notes.Services.Settings\Notes.Services.Settings.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\Data\Migrations\Notes.Context.Migrations.PgSql\Notes.Context.Migrations.PgSql.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\Data\Notes.Context\Notes.Context.csproj" />
     <ProjectReference Include="..\..\..\Shared\Notes.Common\Notes.Common.csproj" />
   </ItemGroup>
 
