@@ -4,7 +4,7 @@ namespace Notes.Context.Entities;
 
 public class PhotoEntity : BaseEntity
 {
-    public int NoteDataId { get; set; }
+    public Guid NoteDataId { get; set; }
     public virtual NoteDataEntity NoteData { get; set; }
 
     public string Url { get; set; }

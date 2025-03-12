@@ -8,8 +8,5 @@ namespace Notes.Context.Entities.Common;
 public abstract class BaseEntity
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public virtual int Id { get; set; }
-
-    [Required]
     public virtual Guid Uid { get; set; } = Guid.NewGuid();
 }

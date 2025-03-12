@@ -11,10 +11,10 @@ public static class NotesDataContextConfiguration
         {
             entity.ToTable("notes_datas");
 
-            entity.HasKey(e => e.Id);
+            entity.HasKey(e => e.Uid);
             entity.HasIndex(e => e.Uid).IsUnique();
 
-            entity.Property(e => e.Name)
+            entity.Property(e => e.Title)
                       .IsRequired();
             entity.Property(e => e.Text)
                       .HasColumnType("text");

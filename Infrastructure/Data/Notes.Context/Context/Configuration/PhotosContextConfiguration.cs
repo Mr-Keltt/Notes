@@ -11,7 +11,7 @@ public static class PhotosContextConfiguration
         {
             entity.ToTable("photos");
 
-            entity.HasKey(e => e.Id);
+            entity.HasKey(e => e.Uid);
             entity.HasIndex(e => e.Uid).IsUnique();
 
             entity.Property(e => e.Url)
