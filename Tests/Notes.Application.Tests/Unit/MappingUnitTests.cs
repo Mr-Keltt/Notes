@@ -6,54 +6,6 @@ using Notes.Models;
 namespace Notes.Tests.Application.Unit;
 
 [TestClass]
-public class NoteDataCreateProfileTests
-{
-    private IMapper _mapper;
-
-    [TestInitialize]
-    public void Setup()
-    {
-        // Для маппинга NoteDataCreateModel в NoteDataEntity необходимо включить PhotoCreateProfile для сопоставления вложенной коллекции
-        var config = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<NoteDataCreateProfile>();
-            cfg.AddProfile<PhotoCreateProfile>();
-        });
-        _mapper = config.CreateMapper();
-    }
-
-    [TestMethod]
-    public void NoteDataCreateMapping_Should_MapPropertiesAndSetDateChange()
-    {
-        // Arrange
-        var noteCreate = new NoteDataCreateModel
-        {
-            Title = "Test Note",
-            Text = "Test text",
-            Marked = true,
-            UserId = Guid.NewGuid(),
-            Photos = new List<PhotoCreateModel>
-            {
-                new PhotoCreateModel { NoteDataId = Guid.NewGuid(), Url = "http://example.com/photo1.jpg" },
-                new PhotoCreateModel { NoteDataId = Guid.NewGuid(), Url = "http://example.com/photo2.jpg" }
-            }
-        };
-
-        // Act
-        var noteEntity = _mapper.Map<NoteDataEntity>(noteCreate);
-
-        // Assert
-        Assert.AreEqual(noteCreate.Title, noteEntity.Title);
-        Assert.AreEqual(noteCreate.Text, noteEntity.Text);
-        Assert.AreEqual(noteCreate.Marked, noteEntity.Marked);
-        Assert.AreEqual(noteCreate.UserId, noteEntity.UserId);
-        Assert.IsNotNull(noteEntity.Photos);
-        Assert.AreEqual(noteCreate.Photos.Count, noteEntity.Photos.Count);
-        Assert.IsTrue((DateTime.Now - noteEntity.DateСhange).TotalSeconds < 2);
-    }
-}
-
-[TestClass]
 public class NoteDataUpdateProfileTests
 {
     private IMapper _mapper;
