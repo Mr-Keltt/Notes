@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Notes.Context.Entities;
 using Notes.Models;
 
-namespace Notes.Tests;
+namespace Notes.Tests.Application.Unit;
 
 [TestClass]
 public class NoteDataCreateProfileTests
