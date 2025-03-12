@@ -19,6 +19,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\Application\Models\Notes.Models\Notes.Models.csproj" />
 		<ProjectReference Include="..\..\Application\Services\Notes.Services.Logger\Notes.Services.Logger.csproj" />
+		<ProjectReference Include="..\..\Application\Services\Notes.Services.Photo\Notes.Services.Photo.csproj" />
 		<ProjectReference Include="..\..\Application\Services\Notes.Services.User\Notes.Services.User.csproj" />
 		<ProjectReference Include="..\..\Infrastructure\Data\Notes.Context\Notes.Context.csproj" />
 		<ProjectReference Include="..\..\Infrastructure\Repositories\Notes.Entities\Notes.Entities.csproj" />

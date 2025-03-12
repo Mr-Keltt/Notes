@@ -49,7 +49,6 @@ public class NoteDataCreateProfileTests
         Assert.AreEqual(noteCreate.UserId, noteEntity.UserId);
         Assert.IsNotNull(noteEntity.Photos);
         Assert.AreEqual(noteCreate.Photos.Count, noteEntity.Photos.Count);
-        // Проверка того, что поле даты установлено (разница менее 2 секунд)
         Assert.IsTrue((DateTime.Now - noteEntity.DateСhange).TotalSeconds < 2);
     }
 }
@@ -62,11 +61,11 @@ public class NoteDataUpdateProfileTests
     [TestInitialize]
     public void Setup()
     {
-        // Для NoteDataUpdateModel в NoteDataEntity добавляем PhotoUpdateProfile для вложенной коллекции
+        
         var config = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<NoteDataUpdateProfile>();
-            cfg.AddProfile<PhotoUpdateProfile>();
+            cfg.AddProfile<PhotoProfile>();
         });
         _mapper = config.CreateMapper();
     }
@@ -79,11 +78,7 @@ public class NoteDataUpdateProfileTests
         {
             Title = "Updated Title",
             Text = "Updated text",
-            Marked = false,
-            Photos = new List<PhotoUpdateModel>
-            {
-                new PhotoUpdateModel { Url = "http://example.com/updated_photo.jpg" }
-            }
+            Marked = false
         };
 
         // Act
@@ -93,9 +88,7 @@ public class NoteDataUpdateProfileTests
         Assert.AreEqual(noteUpdate.Title, noteEntity.Title);
         Assert.AreEqual(noteUpdate.Text, noteEntity.Text);
         Assert.AreEqual(noteUpdate.Marked, noteEntity.Marked);
-        Assert.IsNotNull(noteEntity.Photos);
-        Assert.AreEqual(noteUpdate.Photos.Count, noteEntity.Photos.Count);
-        // Проверка того, что дата обновления установлена
+
         Assert.IsTrue((DateTime.Now - noteEntity.DateСhange).TotalSeconds < 2);
     }
 }
@@ -181,38 +174,6 @@ public class PhotoCreateProfileTests
         // Assert
         Assert.AreEqual(photoCreate.NoteDataId, photoEntity.NoteDataId);
         Assert.AreEqual(photoCreate.Url, photoEntity.Url);
-    }
-}
-
-[TestClass]
-public class PhotoUpdateProfileTests
-{
-    private IMapper _mapper;
-
-    [TestInitialize]
-    public void Setup()
-    {
-        var config = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<PhotoUpdateProfile>();
-        });
-        _mapper = config.CreateMapper();
-    }
-
-    [TestMethod]
-    public void PhotoUpdateMapping_Should_MapProperties()
-    {
-        // Arrange
-        var photoUpdate = new PhotoUpdateModel
-        {
-            Url = "http://example.com/updated_photo.jpg"
-        };
-
-        // Act
-        var photoEntity = _mapper.Map<PhotoEntity>(photoUpdate);
-
-        // Assert
-        Assert.AreEqual(photoUpdate.Url, photoEntity.Url);
     }
 }
 

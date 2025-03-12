@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Services.User", "Appl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Application.Tests", "Tests\Notes.Application.Tests\Notes.Application.Tests.csproj", "{39AADF4F-9CCF-44EF-B8FE-381DF52383A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Services.Photo", "Application\Services\Notes.Services.Photo\Notes.Services.Photo.csproj", "{D155E726-B86A-4EBB-A761-C940F9777279}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{39AADF4F-9CCF-44EF-B8FE-381DF52383A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39AADF4F-9CCF-44EF-B8FE-381DF52383A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39AADF4F-9CCF-44EF-B8FE-381DF52383A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D155E726-B86A-4EBB-A761-C940F9777279}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D155E726-B86A-4EBB-A761-C940F9777279}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D155E726-B86A-4EBB-A761-C940F9777279}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D155E726-B86A-4EBB-A761-C940F9777279}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,6 +128,7 @@ Global
 		{AD3707DD-886F-4257-B8B2-5FF2A8970BD6} = {25C4899F-454E-4DF2-929D-406166120F50}
 		{2549646C-8E6A-48F4-8166-24A85689FD3B} = {C67F86F8-8959-4ACB-AA91-9C2D55D4940B}
 		{39AADF4F-9CCF-44EF-B8FE-381DF52383A7} = {25C4899F-454E-4DF2-929D-406166120F50}
+		{D155E726-B86A-4EBB-A761-C940F9777279} = {C67F86F8-8959-4ACB-AA91-9C2D55D4940B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3EEF6ADC-D4A4-498A-ADCB-CF571C37134C}

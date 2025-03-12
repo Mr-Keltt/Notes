@@ -15,8 +15,6 @@ public class NoteDataUpdateModel
     public string? Text { get; set; }
 
     public bool Marked { get; set; }
-
-    public ICollection<PhotoUpdateModel> Photos { get; set; }
 }
 
 
@@ -25,7 +23,6 @@ public class NoteDataUpdateProfile : Profile
     public NoteDataUpdateProfile()
     {
         CreateMap<NoteDataUpdateModel, NoteDataEntity>()
-            .ForMember(dest => dest.DateСhange, opt => opt.MapFrom(src => DateTime.Now))
-            .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.Photos));
+            .ForMember(dest => dest.DateСhange, opt => opt.MapFrom(src => DateTime.Now));
     }
 }
