@@ -19,7 +19,6 @@ public class UserCreateProfile : Profile
     public UserCreateProfile()
     {
         CreateMap<UserCreateModel, UserEntity>()
-            // При наличии вложенной коллекции NotesDatas производится маппинг
             .ForMember(dest => dest.NotesDatas, opt => opt.MapFrom(src => src.NotesDatas));
     }
 }

@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Application\Models\Notes.Models\Notes.Models.csproj" />
     <ProjectReference Include="..\..\..\Application\Services\Notes.Services.Logger\Notes.Services.Logger.csproj" />
     <ProjectReference Include="..\..\..\Application\Services\Notes.Services.Settings\Notes.Services.Settings.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\Data\Migrations\Notes.Context.Migrations.PgSql\Notes.Context.Migrations.PgSql.csproj" />
