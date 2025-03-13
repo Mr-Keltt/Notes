@@ -3,6 +3,7 @@ import React from 'react';
 import Header from '../../components/Header/Header';
 import AddNoteButton from '../../components/AddNoteButton/AddNoteButton';
 import UserCard from '../../components/UserCard/UserCard';
+import WarningBanner from '../../components/WarningBanner/WarningBanner';
 import { useActiveUserContext } from '../../context/ActiveUserContext';
 import './UserSelection.css';
 
@@ -20,16 +21,21 @@ const UserSelection = () => {
   return (
     <>
       <Header showBack={true} />
-      <div className="container">
-        {users.map((user) => (
-          <UserCard
-            key={user.guid}
-            user={user}
-            active={user.guid === activeUser}
-            onClick={updateActiveUser}
-            onDelete={handleDeleteUser}
-          />
-        ))}
+      <div className="main-content">
+        <WarningBanner 
+          text="Так как в тз не было указано требований к авторизации и аутентификации, я просто сделал возможность создавать, выбирать и удалять пользователей для всех желающих" 
+        />
+        <div className="container">
+          {users.map((user) => (
+            <UserCard 
+              key={user.guid} 
+              user={user} 
+              active={user.guid === activeUser} 
+              onClick={updateActiveUser}
+              onDelete={handleDeleteUser}
+            />
+          ))}
+        </div>
       </div>
       <AddNoteButton onClick={handleAddUser} />
     </>

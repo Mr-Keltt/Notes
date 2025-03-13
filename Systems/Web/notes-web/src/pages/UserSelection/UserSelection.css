@@ -1,7 +1,11 @@
 /* src/pages/UserSelection/UserSelection.css */
-.container {
+.page-wrapper {
+    padding-top: 100px;
+  }
+  
+  .container {
     max-width: 1200px;
-    margin: 100px auto 80px;
+    margin: 0 auto 80px;
     padding: 0 1rem;
   }
   

@@ -10,12 +10,12 @@ const sampleNotes = [
   {
     uid: '1',
     title: 'Первая заметка',
-    text: 'Это пример заметки, которая содержит достаточно текста...',
+    text: 'Это пример заметки, которая содержит достаточно текста, чтобы показать, как работает обрезка текста с троеточием, если весь текст не помещается в карточке.',
   },
   {
     uid: '2',
     title: 'Вторая заметка',
-    text: 'Здесь ещё один пример заметки для демонстрации адаптивной сетки карточек...',
+    text: 'Здесь ещё один пример заметки для демонстрации адаптивной сетки карточек. Текст ограничен тремя строками, и если его много, он будет обрезаться.',
   },
   {
     uid: '3',
@@ -26,7 +26,6 @@ const sampleNotes = [
 
 const Home = () => {
   const { activeUser } = useActiveUserContext();
-  // activeUser можно использовать в дальнейшем, например, для фильтрации заметок
 
   const handleAddNote = () => {
     alert('Добавить новую заметку');
@@ -35,11 +34,13 @@ const Home = () => {
   return (
     <>
       <Header />
-      <div className="container">
-        <div className="notes-grid">
-          {sampleNotes.map((note) => (
-            <NoteCard key={note.uid} note={note} />
-          ))}
+      <div className="main-content">
+        <div className="container">
+          <div className="notes-grid">
+            {sampleNotes.map(note => (
+              <NoteCard key={note.uid} note={note} />
+            ))}
+          </div>
         </div>
       </div>
       <AddNoteButton onClick={handleAddNote} />
