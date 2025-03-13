@@ -22,11 +22,13 @@ services:
     env_file:
       - env.api
 
-  # notes_web:
-  #   ports:
-  #     - "10100:8080"
-  #   networks:
-  #     - shared_notes_net
+  notes_web:
+    ports:
+      - "10100:80"
+    networks:
+      - shared_notes_net
+    env_file:
+      - env.web
 
 networks:
   shared_notes_net:

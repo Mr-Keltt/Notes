@@ -12,11 +12,11 @@ services:
     depends_on:
       - notes_postgresql
 
-  # notes_web:
-  #   image: ${DOCKER_REGISTRY-}notes-web
-  #   build:
-  #     context: .
-  #     dockerfile: Systems/Web/Notes.Web/Dockerfile
-  #   depends_on:
-  #     - notes_api
-  #     - notes_postgresql
+  notes_web:
+    image: ${DOCKER_REGISTRY-}notes-web
+    build:
+      context: ./Systems/Web/notes-web
+      dockerfile: Dockerfile
+    depends_on:
+      - notes_api
+      - notes_postgresql
