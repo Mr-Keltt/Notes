@@ -10,10 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
@@ -29,8 +25,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Application\Models\Notes.Models\Notes.Models.csproj" />
     <ProjectReference Include="..\..\..\Application\Services\Notes.Services.Logger\Notes.Services.Logger.csproj" />
+    <ProjectReference Include="..\..\..\Application\Services\Notes.Services.NoteData\Notes.Services.NoteData.csproj" />
+    <ProjectReference Include="..\..\..\Application\Services\Notes.Services.Photo\Notes.Services.Photo.csproj" />
     <ProjectReference Include="..\..\..\Application\Services\Notes.Services.Settings\Notes.Services.Settings.csproj" />
+    <ProjectReference Include="..\..\..\Application\Services\Notes.Services.User\Notes.Services.User.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\Data\Migrations\Notes.Context.Migrations.PgSql\Notes.Context.Migrations.PgSql.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\Data\Notes.Context\Notes.Context.csproj" />
     <ProjectReference Include="..\..\..\Shared\Notes.Common\Notes.Common.csproj" />
