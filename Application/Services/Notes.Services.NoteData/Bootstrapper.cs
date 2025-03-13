@@ -4,7 +4,7 @@ namespace Notes.Services.NoteData;
 
 public static class Bootstrapper
 {
-    public static IServiceCollection AddUserService(this IServiceCollection services)
+    public static IServiceCollection AddNoteDataService(this IServiceCollection services)
     {
         services.AddScoped<INoteDataService, NoteDataService>();
 

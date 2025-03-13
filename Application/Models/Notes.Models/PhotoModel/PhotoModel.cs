@@ -22,6 +22,7 @@ public class PhotoProfile : Profile
 {
     public PhotoProfile()
     {
-        CreateMap<PhotoEntity, PhotoModel>();
+        CreateMap<PhotoEntity, PhotoModel>()
+            .ReverseMap();
     }
 }

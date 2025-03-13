@@ -13,7 +13,6 @@ public class NoteDataUpdateProfileTests
     [TestInitialize]
     public void Setup()
     {
-        
         var config = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<NoteDataUpdateProfile>();
@@ -40,8 +39,8 @@ public class NoteDataUpdateProfileTests
         Assert.AreEqual(noteUpdate.Title, noteEntity.Title);
         Assert.AreEqual(noteUpdate.Text, noteEntity.Text);
         Assert.AreEqual(noteUpdate.Marked, noteEntity.Marked);
-
-        Assert.IsTrue((DateTime.Now - noteEntity.DateСhange).TotalSeconds < 2);
+        // Сравниваем с DateTime.UtcNow
+        Assert.IsTrue((DateTime.UtcNow - noteEntity.DateСhange).TotalSeconds < 2);
     }
 }
 
@@ -53,7 +52,6 @@ public class NoteDataProfileTests
     [TestInitialize]
     public void Setup()
     {
-        // Для маппинга NoteDataEntity в NoteDataModel включаем также PhotoProfile для вложенных фото
         var config = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<NoteDataProfile>();
@@ -166,54 +164,6 @@ public class PhotoProfileTests
 }
 
 [TestClass]
-public class UserCreateProfileTests
-{
-    private IMapper _mapper;
-
-    [TestInitialize]
-    public void Setup()
-    {
-        // Для маппинга UserCreateModel в UserEntity требуется сопоставление вложенной коллекции заметок.
-        // Если нет отдельного профиля для маппинга NoteDataModel в NoteDataEntity, его можно добавить напрямую.
-        var config = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<UserCreateProfile>();
-            cfg.CreateMap<NoteDataModel, NoteDataEntity>();
-        });
-        _mapper = config.CreateMapper();
-    }
-
-    [TestMethod]
-    public void UserCreateMapping_Should_MapNotesDatas()
-    {
-        // Arrange
-        var userCreate = new UserCreateModel
-        {
-            NotesDatas = new List<NoteDataModel>
-            {
-                new NoteDataModel
-                {
-                    Uid = Guid.NewGuid(),
-                    Title = "Note Title",
-                    Text = "Note Text",
-                    Marked = true,
-                    DateСhange = DateTime.Now,
-                    UserId = Guid.NewGuid(),
-                    Photos = new List<PhotoModel>()
-                }
-            }
-        };
-
-        // Act
-        var userEntity = _mapper.Map<UserEntity>(userCreate);
-
-        // Assert
-        Assert.IsNotNull(userEntity.NotesDatas);
-        Assert.AreEqual(userCreate.NotesDatas.Count, userEntity.NotesDatas.Count);
-    }
-}
-
-[TestClass]
 public class UserProfileTests
 {
     private IMapper _mapper;
@@ -221,7 +171,6 @@ public class UserProfileTests
     [TestInitialize]
     public void Setup()
     {
-        // Для маппинга UserEntity в UserModel включаем также профили для вложенной коллекции заметок и фото
         var config = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<UserProfile>();

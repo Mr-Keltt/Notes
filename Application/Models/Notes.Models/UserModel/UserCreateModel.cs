@@ -10,7 +10,7 @@ namespace Notes.Models;
 
 public class UserCreateModel
 {
-    public ICollection<NoteDataModel> NotesDatas { get; set; }
+
 }
 
 
@@ -19,6 +19,6 @@ public class UserCreateProfile : Profile
     public UserCreateProfile()
     {
         CreateMap<UserCreateModel, UserEntity>()
-            .ForMember(dest => dest.NotesDatas, opt => opt.MapFrom(src => src.NotesDatas));
+            .ReverseMap();
     }
 }

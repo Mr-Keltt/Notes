@@ -43,6 +43,7 @@ public class NotesController : ControllerBase
 
     // POST: api/Notes
     [HttpPost]
+    [ProducesResponseType(201)]
     public async Task<ActionResult<NoteDataResponse>> CreateNote([FromBody] NoteDataCreateRequest request)
     {
         var createModel = _mapper.Map<NoteDataCreateModel>(request);
@@ -53,6 +54,7 @@ public class NotesController : ControllerBase
 
     // PUT: api/Notes/{noteId}
     [HttpPut("{noteId:guid}")]
+    [ProducesResponseType(204)]
     public async Task<IActionResult> UpdateNote(Guid noteId, [FromBody] NoteDataUpdateRequest request)
     {
         var updateModel = _mapper.Map<NoteDataUpdateModel>(request);
@@ -62,6 +64,7 @@ public class NotesController : ControllerBase
 
     // DELETE: api/Notes/{noteId}
     [HttpDelete("{noteId:guid}")]
+    [ProducesResponseType(204)]
     public async Task<IActionResult> DeleteNote(Guid noteId)
     {
         await _noteDataService.DeleteNoteAsync(noteId);

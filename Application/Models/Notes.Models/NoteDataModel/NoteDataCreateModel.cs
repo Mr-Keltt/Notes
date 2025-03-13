@@ -20,6 +20,7 @@ public class NoteDataCreateProfile : Profile
     public NoteDataCreateProfile()
     {
         CreateMap<NoteDataCreateModel, NoteDataEntity>()
-            .ForMember(dest => dest.DateСhange, opt => opt.MapFrom(src => DateTime.Now));
+            .ForMember(dest => dest.DateСhange, opt => opt.MapFrom(src => DateTime.UtcNow));
+
     }
 }

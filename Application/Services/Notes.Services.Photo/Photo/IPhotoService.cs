@@ -24,6 +24,13 @@ public interface IPhotoService
     Task<IEnumerable<PhotoModel>> GetPhotosByNoteIdAsync(Guid noteId);
 
     /// <summary>
+    /// Gets a photo by its ID.
+    /// </summary>
+    /// <param name="photoId">ID of the photo.</param>
+    /// <returns>The photo model, or null if not found.</returns>
+    Task<PhotoModel?> GetPhotoByIdAsync(Guid photoId);
+
+    /// <summary>
     /// Deletes photos by ID.
     /// </summary>
     /// <param name="photoId">ID of the photo to delete.</param>

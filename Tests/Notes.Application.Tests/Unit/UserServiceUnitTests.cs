@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Notes.Context;
 using Notes.Context.Entities;
 using Notes.Models;
-using Notes.Services;
 using Notes.Services.Logger;
 using Notes.Services.User;
 
@@ -21,27 +15,24 @@ public class UserServiceUnitTests
 {
     private DbContextOptions<MainDbContext> _options;
     private IDbContextFactory<MainDbContext> _dbContextFactory;
-    private MainDbContext _initialContext;
     private IMapper _mapper;
     private Mock<IAppLogger> _mockLogger;
     private IUserService _userService;
+    private MainDbContext _seedContext;
 
     [TestInitialize]
     public void Setup()
     {
         _options = new DbContextOptionsBuilder<MainDbContext>()
-            .UseInMemoryDatabase(databaseName: "TestDatabase_" + Guid.NewGuid())
+            .UseInMemoryDatabase("UserServiceUnitTestDb_" + Guid.NewGuid())
             .Options;
 
-        _initialContext = new MainDbContext(_options);
+        _seedContext = new MainDbContext(_options);
 
-        var userData = new List<UserEntity>
-        {
-            new UserEntity { Uid = Guid.NewGuid() },
-            new UserEntity { Uid = Guid.NewGuid() }
-        };
-        _initialContext.Users.AddRange(userData);
-        _initialContext.SaveChanges();
+        var user1 = new UserEntity { Uid = Guid.NewGuid(), NotesDatas = new System.Collections.Generic.List<NoteDataEntity>() };
+        var user2 = new UserEntity { Uid = Guid.NewGuid(), NotesDatas = new System.Collections.Generic.List<NoteDataEntity>() };
+        _seedContext.Users.AddRange(user1, user2);
+        _seedContext.SaveChanges();
 
         var mockFactory = new Mock<IDbContextFactory<MainDbContext>>();
         mockFactory.Setup(f => f.CreateDbContextAsync(It.IsAny<CancellationToken>()))
@@ -60,17 +51,38 @@ public class UserServiceUnitTests
     }
 
     [TestMethod]
+    public async Task CreateAsync_CreatesUser()
+    {
+        // Act
+        var newUser = await _userService.CreateAsync();
+
+        // Assert
+        Assert.IsNotNull(newUser);
+        Assert.AreNotEqual(Guid.Empty, newUser.Uid);
+
+        using var verificationContext = new MainDbContext(_options);
+        var userInDb = await verificationContext.Users.FindAsync(newUser.Uid);
+        Assert.IsNotNull(userInDb);
+
+        _mockLogger.Verify(x => x.Information(
+            It.Is<string>(s => s.Contains("Created new user")),
+            It.IsAny<object[]>()),
+            Times.Once);
+    }
+
+    [TestMethod]
     public async Task GetByIdAsync_ReturnsUser_WhenUserExists()
     {
         // Arrange
-        var existingUser = _initialContext.Users.First();
+        var existingUser = _seedContext.Users.First();
+        var userId = existingUser.Uid;
 
         // Act
-        var result = await _userService.GetByIdAsync(existingUser.Uid);
+        var result = await _userService.GetByIdAsync(userId);
 
         // Assert
         Assert.IsNotNull(result);
-        Assert.AreEqual(existingUser.Uid, result!.Uid);
+        Assert.AreEqual(userId, result!.Uid);
         _mockLogger.Verify(x => x.Information(
             It.Is<string>(s => s.Contains("Retrieved user")),
             It.IsAny<object[]>()),
@@ -101,7 +113,7 @@ public class UserServiceUnitTests
         var result = await _userService.GetAllAsync();
 
         // Assert
-        Assert.AreEqual(_initialContext.Users.Count(), result.Count());
+        Assert.AreEqual(_seedContext.Users.Count(), result.Count());
         _mockLogger.Verify(x => x.Information(
             It.Is<string>(s => s.Contains("Retrieved")),
             It.IsAny<object[]>()),
@@ -112,13 +124,14 @@ public class UserServiceUnitTests
     public async Task DeleteAsync_RemovesUser_WhenUserExists()
     {
         // Arrange
-        var userToDelete = _initialContext.Users.First();
+        var userToDelete = _seedContext.Users.First();
+        var userId = userToDelete.Uid;
 
         // Act
-        await _userService.DeleteAsync(userToDelete.Uid);
+        await _userService.DeleteAsync(userId);
 
         using var verificationContext = new MainDbContext(_options);
-        var deletedUser = await verificationContext.Users.FindAsync(userToDelete.Uid);
+        var deletedUser = await verificationContext.Users.FindAsync(userId);
 
         // Assert
         Assert.IsNull(deletedUser);
