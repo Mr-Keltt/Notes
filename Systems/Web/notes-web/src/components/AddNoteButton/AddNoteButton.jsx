@@ -1,10 +1,15 @@
-// src/components/AddNoteButton/AddNoteButton.jsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './AddNoteButton.css';
 
-const AddNoteButton = ({ onClick }) => {
+const AddNoteButton = () => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate('/note/new');
+  };
+
   return (
-    <button className="add-note-btn" onClick={onClick}>
+    <button className="add-note-btn" onClick={handleClick}>
       +
     </button>
   );

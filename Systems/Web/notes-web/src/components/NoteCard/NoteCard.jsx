@@ -1,17 +1,32 @@
-// src/components/NoteCard/NoteCard.jsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './NoteCard.css';
 
-const NoteCard = ({ note }) => {
-  const { title, text } = note;
+const NoteCard = ({ note, onCardClick }) => {
+  const navigate = useNavigate();
+
+  const handleEdit = (e) => {
+    e.stopPropagation();
+    navigate(`/note/edit/${note.uid}`);
+  };
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    alert('Удалить заметку');
+  };
+
+  const handleCardClick = () => {
+    navigate(`/note/${note.uid}`);
+  };
+
   return (
-    <div className="note-card">
+    <div className="note-card" onClick={handleCardClick}>
       <div className="note-actions">
-        <button onClick={() => alert('Редактировать заметку')}>✏️</button>
-        <button onClick={() => alert('Удалить заметку')}>❌</button>
+        <button onClick={handleEdit}>✏️</button>
+        <button onClick={handleDelete}>❌</button>
       </div>
-      <div className="note-title">{title}</div>
-      <div className="note-text">{text}</div>
+      <div className="note-title">{note.title}</div>
+      <div className="note-text">{note.text}</div>
     </div>
   );
 };
