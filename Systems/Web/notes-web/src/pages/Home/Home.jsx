@@ -3,18 +3,19 @@ import React from 'react';
 import Header from '../../components/Header/Header';
 import NoteCard from '../../components/NoteCard/NoteCard';
 import AddNoteButton from '../../components/AddNoteButton/AddNoteButton';
+import { useActiveUserContext } from '../../context/ActiveUserContext';
 import './Home.css';
 
 const sampleNotes = [
   {
     uid: '1',
     title: 'Первая заметка',
-    text: 'Это пример заметки, которая содержит достаточно текста, чтобы показать, как работает обрезка текста с троеточием, если весь текст не помещается в карточке.',
+    text: 'Это пример заметки, которая содержит достаточно текста...',
   },
   {
     uid: '2',
     title: 'Вторая заметка',
-    text: 'Здесь ещё один пример заметки для демонстрации адаптивной сетки карточек. Текст ограничен тремя строками, и если его много, он будет обрезаться.',
+    text: 'Здесь ещё один пример заметки для демонстрации адаптивной сетки карточек...',
   },
   {
     uid: '3',
@@ -24,6 +25,9 @@ const sampleNotes = [
 ];
 
 const Home = () => {
+  const { activeUser } = useActiveUserContext();
+  // activeUser можно использовать в дальнейшем, например, для фильтрации заметок
+
   const handleAddNote = () => {
     alert('Добавить новую заметку');
   };
@@ -33,7 +37,7 @@ const Home = () => {
       <Header />
       <div className="container">
         <div className="notes-grid">
-          {sampleNotes.map(note => (
+          {sampleNotes.map((note) => (
             <NoteCard key={note.uid} note={note} />
           ))}
         </div>

@@ -2,11 +2,23 @@
 import React from 'react';
 import './UserCard.css';
 
-const UserCard = ({ user, active, onDelete }) => {
+const UserCard = ({ user, active, onClick, onDelete }) => {
   return (
-    <div className={`user-card ${active ? 'active' : ''}`}>
+    <div 
+      className={`user-card ${active ? 'active' : ''}`}
+      onClick={() => { 
+        if (!active) onClick(user.guid); 
+      }}
+      style={{ cursor: 'pointer' }}
+    >
       <div>{user.guid}</div>
-      <button className="delete-btn" onClick={() => onDelete(user.guid)}>
+      <button 
+        className="delete-btn" 
+        onClick={(e) => { 
+          e.stopPropagation();
+          onDelete(user.guid);
+        }}
+      >
         ❌
       </button>
     </div>
