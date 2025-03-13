@@ -21,6 +21,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Application\Models\Notes.Models\Notes.Models.csproj" />
+    <ProjectReference Include="..\..\Application\Services\Notes.Services.NoteData\Notes.Services.NoteData.csproj" />
+    <ProjectReference Include="..\..\Application\Services\Notes.Services.Photo\Notes.Services.Photo.csproj" />
+    <ProjectReference Include="..\..\Application\Services\Notes.Services.User\Notes.Services.User.csproj" />
     <ProjectReference Include="..\..\Systems\API\Notes.API\Notes.API.csproj" />
   </ItemGroup>
 

@@ -27,14 +27,12 @@ public class NoteDataServiceIntegrationTests
     public void Setup()
     {
         var services = new ServiceCollection();
-        // Используем уникальное имя in‑memory базы для изоляции теста
         string dbName = "NoteDataIntegrationDb_" + Guid.NewGuid();
         services.AddDbContext<MainDbContext>(options =>
             options.UseInMemoryDatabase(dbName));
         services.AddDbContextFactory<MainDbContext>(options =>
             options.UseInMemoryDatabase(dbName));
 
-        // Регистрируем AutoMapper с нужными профилями
         var mapperConfig = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<NoteDataCreateProfile>();
@@ -43,16 +41,12 @@ public class NoteDataServiceIntegrationTests
         });
         services.AddSingleton(mapperConfig.CreateMapper());
 
-        // Регистрируем IAppLogger как мок
         _mockLogger = new Mock<IAppLogger>();
         services.AddSingleton<IAppLogger>(_mockLogger.Object);
-
-        // Регистрируем сервис заметок
         services.AddTransient<INoteDataService, NoteDataService>();
 
         _serviceProvider = services.BuildServiceProvider();
 
-        // Получаем необходимые зависимости
         _context = _serviceProvider.GetRequiredService<MainDbContext>();
         _noteDataService = _serviceProvider.GetRequiredService<INoteDataService>();
     }
@@ -82,7 +76,6 @@ public class NoteDataServiceIntegrationTests
             It.Is<string>(s => s.Contains("Created note")),
             It.IsAny<object[]>()), Times.Once);
 
-        // Для проверки создаем новый контекст через фабрику, чтобы получить актуальное состояние базы
         using var verificationContext = _serviceProvider.GetRequiredService<IDbContextFactory<MainDbContext>>()
             .CreateDbContext();
         var noteInDb = await verificationContext.NotesDatas.FindAsync(result.Uid);
@@ -92,7 +85,7 @@ public class NoteDataServiceIntegrationTests
     [TestMethod]
     public async Task GetNotesByUserIdAsync_ReturnsNotes_ForExistingUser()
     {
-        // Arrange: засеваем несколько заметок для определённого пользователя
+        // Arrange
         var userId = Guid.NewGuid();
         _context.NotesDatas.AddRange(
             new NoteDataEntity { Uid = Guid.NewGuid(), Title = "Note 1", Text = "Text 1", Marked = false, UserId = userId, DateСhange = DateTime.Now },
@@ -114,7 +107,7 @@ public class NoteDataServiceIntegrationTests
     [TestMethod]
     public async Task GetNoteByIdAsync_ReturnsNote_WhenNoteExists()
     {
-        // Arrange: создаем заметку
+        // Arrange
         var note = new NoteDataEntity
         {
             Uid = Guid.NewGuid(),
@@ -157,7 +150,7 @@ public class NoteDataServiceIntegrationTests
     [TestMethod]
     public async Task UpdateNoteAsync_UpdatesNote_WhenNoteExists()
     {
-        // Arrange: создаем заметку для обновления
+        // Arrange
         var note = new NoteDataEntity
         {
             Uid = Guid.NewGuid(),
@@ -180,7 +173,7 @@ public class NoteDataServiceIntegrationTests
         // Act
         await _noteDataService.UpdateNoteAsync(note.Uid, updateModel);
 
-        // Assert: создаем новый контекст для проверки изменений
+        // Assert
         using var verificationContext = _serviceProvider.GetRequiredService<IDbContextFactory<MainDbContext>>()
             .CreateDbContext();
         var updatedNote = await verificationContext.NotesDatas.FindAsync(note.Uid);
@@ -196,7 +189,7 @@ public class NoteDataServiceIntegrationTests
     [TestMethod]
     public async Task DeleteNoteAsync_DeletesNote_WhenNoteExists()
     {
-        // Arrange: создаем заметку для удаления
+        // Arrange
         var note = new NoteDataEntity
         {
             Uid = Guid.NewGuid(),
@@ -212,7 +205,7 @@ public class NoteDataServiceIntegrationTests
         // Act
         await _noteDataService.DeleteNoteAsync(note.Uid);
 
-        // Assert: создаем новый контекст для проверки, что заметка удалена
+        // Assert
         using var verificationContext = _serviceProvider.GetRequiredService<IDbContextFactory<MainDbContext>>()
             .CreateDbContext();
         var deletedNote = await verificationContext.NotesDatas.FindAsync(note.Uid);

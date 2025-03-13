@@ -19,6 +19,7 @@ public class PhotoCreateProfile : Profile
 {
     public PhotoCreateProfile()
     {
-        CreateMap<PhotoCreateModel, PhotoEntity>();
+        CreateMap<PhotoCreateModel, PhotoEntity>()
+            .ReverseMap();
     }
 }

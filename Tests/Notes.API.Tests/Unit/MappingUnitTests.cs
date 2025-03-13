@@ -29,14 +29,12 @@ public class MappingProfilesTests
             UserId = Guid.NewGuid()
         };
 
-        // Map Request -> Business model
         var businessModel = mapper.Map<NoteDataCreateModel>(request);
         Assert.AreEqual(request.Title, businessModel.Title);
         Assert.AreEqual(request.Text, businessModel.Text);
         Assert.AreEqual(request.Marked, businessModel.Marked);
         Assert.AreEqual(request.UserId, businessModel.UserId);
 
-        // Reverse mapping: Business model -> Request
         var reverse = mapper.Map<NoteDataCreateRequest>(businessModel);
         Assert.AreEqual(request.Title, reverse.Title);
         Assert.AreEqual(request.Text, reverse.Text);
@@ -47,7 +45,6 @@ public class MappingProfilesTests
     [TestMethod]
     public void NoteDataResponseMapping_IsValid()
     {
-        // Для корректного маппинга коллекции Photos добавляем зависимый профиль PhotoResponseProfile
         var config = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<NoteDataResponseProfile>();
@@ -74,14 +71,11 @@ public class MappingProfilesTests
         Assert.AreEqual(response.Uid, businessModel.Uid);
         Assert.AreEqual(response.Title, businessModel.Title);
         Assert.AreEqual(response.Text, businessModel.Text);
-        // Обратите внимание, что в модели бизнес-логики дата называется DateСhange (с кириллическим 'С'),
-        // поэтому сравниваем с DateChange из API
         Assert.AreEqual(response.DateChange, businessModel.DateСhange);
         Assert.AreEqual(response.Marked, businessModel.Marked);
         Assert.AreEqual(response.UserId, businessModel.UserId);
         Assert.AreEqual(response.Photos.Count, businessModel.Photos.Count);
 
-        // Reverse mapping: Business model -> API Response
         var reverse = mapper.Map<NoteDataResponse>(businessModel);
         Assert.AreEqual(response.Uid, reverse.Uid);
         Assert.AreEqual(response.Title, reverse.Title);
@@ -171,46 +165,6 @@ public class MappingProfilesTests
         Assert.AreEqual(response.Uid, reverse.Uid);
         Assert.AreEqual(response.NoteDataId, reverse.NoteDataId);
         Assert.AreEqual(response.Url, reverse.Url);
-    }
-
-    [TestMethod]
-    public void UserCreateRequestMapping_IsValid()
-    {
-        // Для маппинга коллекции NotesDatas требуется профиль NoteDataResponseProfile (и его зависимость для Photos)
-        var config = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<UserCreateRequestProfile>();
-            cfg.AddProfile<NoteDataResponseProfile>();
-            cfg.AddProfile<PhotoResponseProfile>();
-        });
-        config.AssertConfigurationIsValid();
-        var mapper = config.CreateMapper();
-
-        var request = new UserCreateRequest
-        {
-            NotesDatas = new List<NoteDataResponse>
-            {
-                new NoteDataResponse
-                {
-                    Uid = Guid.NewGuid(),
-                    Title = "User Note",
-                    Text = "User Note Text",
-                    DateChange = new DateTime(2023, 1, 1),
-                    Marked = false,
-                    UserId = Guid.NewGuid(),
-                    Photos = new List<PhotoResponse>
-                    {
-                        new PhotoResponse { Uid = Guid.NewGuid(), NoteDataId = Guid.NewGuid(), Url = "http://example.com/photo.jpg" }
-                    }
-                }
-            }
-        };
-
-        var businessModel = mapper.Map<UserCreateModel>(request);
-        Assert.AreEqual(request.NotesDatas.Count, businessModel.NotesDatas.Count);
-
-        var reverse = mapper.Map<UserCreateRequest>(businessModel);
-        Assert.AreEqual(request.NotesDatas.Count, reverse.NotesDatas.Count);
     }
 
     [TestMethod]

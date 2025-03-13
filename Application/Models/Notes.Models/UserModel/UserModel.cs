@@ -19,6 +19,8 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
-        CreateMap<UserEntity, UserModel>();
+        CreateMap<UserEntity, UserModel>()
+            .ForMember(dest => dest.NotesDatas, opt => opt.MapFrom(src => src.NotesDatas))
+            .ReverseMap();
     }
 }

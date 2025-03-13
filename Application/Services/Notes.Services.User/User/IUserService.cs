@@ -5,6 +5,12 @@ namespace Notes.Services.User;
 public interface IUserService
 {
     /// <summary>
+    /// Creates a new user with a generated ID and empty list of notes.
+    /// </summary>
+    /// <returns>The created user model.</returns>
+    Task<UserModel> CreateAsync();
+
+    /// <summary>
     /// Gets the user by their ID.
     /// </summary>
     /// <param name="userId">User ID.</param>

@@ -30,6 +30,7 @@ public class NoteDataProfile : Profile
 {
     public NoteDataProfile()
     {
-        CreateMap<NoteDataEntity, NoteDataModel>();
+        CreateMap<NoteDataEntity, NoteDataModel>()
+            .ReverseMap();
     }
 }

@@ -1,6 +1,9 @@
 ﻿using Notes.API.Configuration;
 using Notes.Services.Settings;
 using Notes.Services.Logger;
+using Notes.Services.User;
+using Notes.Services.Photo;
+using Notes.Services.NoteData;
 
 namespace Notes.API;
 
@@ -21,7 +24,11 @@ public static class Bootstrapper
                 .AddSwaggerSettings()
                 .AddLogSettings()
                 .AddAppLogger()
-                .AddAppAutoMappers();
+                .AddAppAutoMappers()
+                .AddApplicationModels()
+                .AddUserService()
+                .AddPhotoService()
+                .AddNoteDataService();
 
         return service;
     }

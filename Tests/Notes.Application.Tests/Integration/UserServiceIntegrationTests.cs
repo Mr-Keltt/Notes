@@ -18,39 +18,34 @@ namespace Notes.Tests.Application.Integration;
 [TestClass]
 public class UserServiceIntegrationTests
 {
-    private ServiceProvider _serviceProvider = null!;
-    private MainDbContext _context = null!;
-    private IUserService _userService = null!;
-    private Mock<IAppLogger> _mockLogger = null!;
+    private ServiceProvider _serviceProvider;
+    private MainDbContext _context;
+    private IUserService _userService;
+    private Mock<IAppLogger> _mockLogger;
 
     [TestInitialize]
     public void Setup()
     {
         var services = new ServiceCollection();
-
-        // Регистрируем EF Core с InMemory-провайдером для MainDbContext.
+        string dbName = "UserServiceIntegrationDb_" + Guid.NewGuid();
         services.AddDbContext<MainDbContext>(options =>
-            options.UseInMemoryDatabase("TestDatabaseIntegration"));
+            options.UseInMemoryDatabase(dbName));
         services.AddDbContextFactory<MainDbContext>(options =>
-            options.UseInMemoryDatabase("TestDatabaseIntegration"));
+            options.UseInMemoryDatabase(dbName));
 
-        // Настраиваем AutoMapper (минимальная конфигурация для маппинга UserEntity → UserModel)
         var mapperConfig = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<UserEntity, UserModel>();
         });
         services.AddSingleton(mapperConfig.CreateMapper());
 
-        // Регистрируем мок логгера через Moq.
         _mockLogger = new Mock<IAppLogger>();
         services.AddSingleton<IAppLogger>(_mockLogger.Object);
 
-        // Регистрируем UserService
         services.AddTransient<IUserService, UserService>();
 
         _serviceProvider = services.BuildServiceProvider();
 
-        // Получаем зависимости из DI
         _context = _serviceProvider.GetRequiredService<MainDbContext>();
         _userService = _serviceProvider.GetRequiredService<IUserService>();
 
@@ -59,19 +54,38 @@ public class UserServiceIntegrationTests
 
     private void SeedTestData()
     {
-        // Удаляем предыдущие данные и добавляем двух тестовых пользователей
         _context.Users.RemoveRange(_context.Users);
         _context.SaveChanges();
-
-        _context.Users.Add(new UserEntity { Uid = Guid.NewGuid() });
-        _context.Users.Add(new UserEntity { Uid = Guid.NewGuid() });
+        _context.Users.Add(new UserEntity { Uid = Guid.NewGuid(), NotesDatas = new System.Collections.Generic.List<NoteDataEntity>() });
+        _context.Users.Add(new UserEntity { Uid = Guid.NewGuid(), NotesDatas = new System.Collections.Generic.List<NoteDataEntity>() });
         _context.SaveChanges();
+    }
+
+    [TestMethod]
+    public async Task CreateAsync_CreatesUser_ReturnsUserModel()
+    {
+        // Act
+        var newUser = await _userService.CreateAsync();
+
+        // Assert
+        Assert.IsNotNull(newUser);
+        Assert.AreNotEqual(Guid.Empty, newUser.Uid);
+
+        using var verificationContext = _serviceProvider.GetRequiredService<IDbContextFactory<MainDbContext>>()
+            .CreateDbContext();
+        var userInDb = await verificationContext.Users.FindAsync(newUser.Uid);
+        Assert.IsNotNull(userInDb);
+
+        _mockLogger.Verify(x => x.Information(
+            It.Is<string>(s => s.Contains("Created new user")),
+            It.IsAny<object[]>()),
+            Times.Once);
     }
 
     [TestMethod]
     public async Task GetByIdAsync_ReturnsUser_WhenUserExists()
     {
-        // Arrange: получаем одного пользователя из базы
+        // Arrange
         var userEntity = await _context.Users.FirstAsync();
         var userId = userEntity.Uid;
 

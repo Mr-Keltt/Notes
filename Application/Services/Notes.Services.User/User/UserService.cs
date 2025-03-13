@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Notes.Context;
+using Notes.Context.Entities;
 using Notes.Models;
 using Notes.Services.Logger;
 
@@ -20,6 +21,21 @@ public class UserService : IUserService
         _dbContextFactory = dbContextFactory;
         _mapper = mapper;
         _logger = logger;
+    }
+
+    public async Task<UserModel> CreateAsync()
+    {
+        using var context = await _dbContextFactory.CreateDbContextAsync();
+
+        var userEntity = new UserEntity
+        {
+            NotesDatas = new List<NoteDataEntity>()
+        };
+
+        context.Users.Add(userEntity);
+        await context.SaveChangesAsync();
+        _logger.Information("Created new user with id {UserId}", userEntity.Uid);
+        return _mapper.Map<UserModel>(userEntity);
     }
 
     public async Task<UserModel?> GetByIdAsync(Guid userId)

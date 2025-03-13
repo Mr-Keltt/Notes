@@ -26,13 +26,14 @@ public class PhotoServiceIntegrationTests
     public void Setup()
     {
         var services = new ServiceCollection();
-        // Регистрируем EF Core с InMemory-провайдером
+        // Регистрируем EF Core с InMemory-провайдером с уникальным именем базы
+        string dbName = "PhotoServiceIntegrationDb_" + Guid.NewGuid();
         services.AddDbContext<MainDbContext>(options =>
-            options.UseInMemoryDatabase("PhotoServiceIntegrationDb_" + Guid.NewGuid()));
+            options.UseInMemoryDatabase(dbName));
         services.AddDbContextFactory<MainDbContext>(options =>
-            options.UseInMemoryDatabase("PhotoServiceIntegrationDb_" + Guid.NewGuid()));
+            options.UseInMemoryDatabase(dbName));
 
-        // Настраиваем AutoMapper с необходимыми профилями
+        // Настраиваем AutoMapper с профилями для фото
         var mapperConfig = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<PhotoCreateModel, PhotoEntity>();
@@ -40,16 +41,13 @@ public class PhotoServiceIntegrationTests
         });
         services.AddSingleton(mapperConfig.CreateMapper());
 
-        // Регистрируем мок логгера
         _mockLogger = new Mock<IAppLogger>();
         services.AddSingleton<IAppLogger>(_mockLogger.Object);
 
-        // Регистрируем PhotoService
         services.AddTransient<IPhotoService, PhotoService>();
 
         _serviceProvider = services.BuildServiceProvider();
 
-        // Получаем контекст и сервис из DI
         _context = _serviceProvider.GetRequiredService<MainDbContext>();
         _photoService = _serviceProvider.GetRequiredService<IPhotoService>();
     }
@@ -76,7 +74,6 @@ public class PhotoServiceIntegrationTests
             It.Is<string>(s => s.Contains("Created photo")),
             It.IsAny<object[]>()), Times.Once);
 
-        // Проверяем, что фото появилось в базе (создаем новый контекст)
         using var verificationContext = _serviceProvider.GetRequiredService<IDbContextFactory<MainDbContext>>()
             .CreateDbContext();
         var photoInDb = await verificationContext.Photos.FindAsync(result.Uid);
@@ -88,7 +85,6 @@ public class PhotoServiceIntegrationTests
     {
         // Arrange
         var noteId = Guid.NewGuid();
-        // Добавляем несколько фото для одного заметки
         _context.Photos.AddRange(
             new PhotoEntity { Uid = Guid.NewGuid(), NoteDataId = noteId, Url = "http://example.com/photo1.jpg" },
             new PhotoEntity { Uid = Guid.NewGuid(), NoteDataId = noteId, Url = "http://example.com/photo2.jpg" },
@@ -107,17 +103,63 @@ public class PhotoServiceIntegrationTests
     }
 
     [TestMethod]
+    public async Task GetPhotoByIdAsync_ReturnsPhoto_WhenPhotoExists()
+    {
+        // Arrange: добавляем фото в контекст
+        var photo = new PhotoEntity
+        {
+            Uid = Guid.NewGuid(),
+            NoteDataId = Guid.NewGuid(),
+            Url = "http://example.com/getphoto.jpg"
+        };
+        _context.Photos.Add(photo);
+        await _context.SaveChangesAsync();
+
+        // Act
+        var result = await _photoService.GetPhotoByIdAsync(photo.Uid);
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(photo.Uid, result.Uid);
+        Assert.AreEqual(photo.Url, result.Url);
+        _mockLogger.Verify(x => x.Information(
+            It.Is<string>(s => s.Contains("Retrieved photo")),
+            It.IsAny<object[]>()), Times.Once);
+    }
+
+    [TestMethod]
+    public async Task GetPhotoByIdAsync_ReturnsNull_AndLogsWarning_WhenPhotoNotFound()
+    {
+        // Arrange
+        var nonExistingPhotoId = Guid.NewGuid();
+
+        // Act
+        var result = await _photoService.GetPhotoByIdAsync(nonExistingPhotoId);
+
+        // Assert
+        Assert.IsNull(result);
+        _mockLogger.Verify(x => x.Warning(
+            It.Is<string>(s => s.Contains("Photo with id") && s.Contains("not found")),
+            It.IsAny<object[]>()), Times.Once);
+    }
+
+    [TestMethod]
     public async Task DeletePhotoAsync_RemovesPhoto_WhenPhotoExists()
     {
         // Arrange
-        var photo = new PhotoEntity { Uid = Guid.NewGuid(), NoteDataId = Guid.NewGuid(), Url = "http://example.com/photo_delete.jpg" };
+        var photo = new PhotoEntity
+        {
+            Uid = Guid.NewGuid(),
+            NoteDataId = Guid.NewGuid(),
+            Url = "http://example.com/photo_delete.jpg"
+        };
         _context.Photos.Add(photo);
         await _context.SaveChangesAsync();
 
         // Act
         await _photoService.DeletePhotoAsync(photo.Uid);
 
-        // Assert - создаем новый контекст для проверки
+        // Assert
         using var verificationContext = _serviceProvider.GetRequiredService<IDbContextFactory<MainDbContext>>()
             .CreateDbContext();
         var deletedPhoto = await verificationContext.Photos.FindAsync(photo.Uid);

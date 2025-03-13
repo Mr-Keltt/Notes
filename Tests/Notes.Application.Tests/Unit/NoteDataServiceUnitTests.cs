@@ -28,14 +28,12 @@ public class NoteDataServiceUnitTests
     [TestInitialize]
     public void Setup()
     {
-        // Создаем уникальные опции для in‑memory базы
         _options = new DbContextOptionsBuilder<MainDbContext>()
             .UseInMemoryDatabase("NoteDataUnitTestDb_" + Guid.NewGuid())
             .Options;
 
-        // Создаем seed-контекст для засева начальных данных
         _seedContext = new MainDbContext(_options);
-        // Заseваем несколько заметок для тестов получения по пользователю
+        
         var userId = Guid.NewGuid();
         _seedContext.NotesDatas.AddRange(
             new NoteDataEntity { Uid = Guid.NewGuid(), Title = "Unit Note 1", Text = "Text 1", Marked = false, UserId = userId, DateСhange = DateTime.Now },
@@ -44,25 +42,20 @@ public class NoteDataServiceUnitTests
         );
         _seedContext.SaveChanges();
 
-        // Настраиваем фабрику контекста так, чтобы каждый вызов возвращал новый экземпляр
         var mockFactory = new Mock<IDbContextFactory<MainDbContext>>();
         mockFactory.Setup(f => f.CreateDbContextAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(() => new MainDbContext(_options));
         _dbContextFactory = mockFactory.Object;
 
-        // Настраиваем AutoMapper: регистрируем профили для заметок (без списка фото)
         var mapperConfig = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<NoteDataCreateProfile>();
             cfg.AddProfile<NoteDataProfile>();
             cfg.AddProfile<NoteDataUpdateProfile>();
         });
+
         _mapper = mapperConfig.CreateMapper();
-
-        // Мок IAppLogger
         _mockLogger = new Mock<IAppLogger>();
-
-        // Создаем экземпляр NoteDataService
         _noteDataService = new NoteDataService(_dbContextFactory, _mapper, _mockLogger.Object);
     }
 
@@ -130,7 +123,6 @@ public class NoteDataServiceUnitTests
         Assert.AreEqual(createModel.Title, result.Title);
         _mockLogger.Verify(x => x.Information(It.Is<string>(s => s.Contains("Created note")), It.IsAny<object[]>()), Times.Once);
 
-        // Проверяем, что заметка добавлена в базу, создавая новый контекст
         using var verificationContext = new MainDbContext(_options);
         var noteInDb = await verificationContext.NotesDatas.FindAsync(result.Uid);
         Assert.IsNotNull(noteInDb);
@@ -139,7 +131,7 @@ public class NoteDataServiceUnitTests
     [TestMethod]
     public async Task UpdateNoteAsync_UpdatesNote()
     {
-        // Arrange: получаем заметку для обновления
+        // Arrange
         var note = _seedContext.NotesDatas.First(n => n.Title == "Unit Note 1");
         var updateModel = new NoteDataUpdateModel
         {
@@ -151,7 +143,7 @@ public class NoteDataServiceUnitTests
         // Act
         await _noteDataService.UpdateNoteAsync(note.Uid, updateModel);
 
-        // Assert: создаем новый контекст для проверки изменений
+        // Assert
         using var verificationContext = new MainDbContext(_options);
         var updatedNote = await verificationContext.NotesDatas.FindAsync(note.Uid);
         Assert.IsNotNull(updatedNote);
@@ -164,13 +156,13 @@ public class NoteDataServiceUnitTests
     [TestMethod]
     public async Task DeleteNoteAsync_DeletesNote()
     {
-        // Arrange: получаем заметку для удаления
+        // Arrange
         var note = _seedContext.NotesDatas.First(n => n.Title == "Unit Note 1");
 
         // Act
         await _noteDataService.DeleteNoteAsync(note.Uid);
 
-        // Assert: проверяем, что заметка удалена, используя новый контекст
+        // Assert
         using var verificationContext = new MainDbContext(_options);
         var deletedNote = await verificationContext.NotesDatas.FindAsync(note.Uid);
         Assert.IsNull(deletedNote);

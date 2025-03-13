@@ -4,7 +4,7 @@ namespace Notes.Services.Photo;
 
 public static class Bootstrapper
 {
-    public static IServiceCollection AddUserService(this IServiceCollection services)
+    public static IServiceCollection AddPhotoService(this IServiceCollection services)
     {
         services.AddScoped<IPhotoService, PhotoService>();
 

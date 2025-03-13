@@ -11,7 +11,7 @@ using Notes.API.Models;
 using Notes.Models;
 using Notes.Services.User;
 
-namespace Notes.Tests.Unit;
+namespace Notes.Tests.API.Unit;
 
 [TestClass]
 public class UsersControllerUnitTests
@@ -87,6 +87,28 @@ public class UsersControllerUnitTests
         var list = okResult.Value as IEnumerable<UserResponse>;
         Assert.IsNotNull(list);
         Assert.AreEqual(responses.Count, list.Count());
+    }
+
+    [TestMethod]
+    public async Task CreateUser_ReturnsCreatedAtActionResult()
+    {
+        // Arrange
+        var createdUserModel = new UserModel { Uid = Guid.NewGuid(), NotesDatas = new List<NoteDataModel>() };
+        var response = new UserResponse { Uid = createdUserModel.Uid, NotesDatas = new List<NoteDataResponse>() };
+
+        _userServiceMock.Setup(s => s.CreateAsync()).ReturnsAsync(createdUserModel);
+        _mapperMock.Setup(m => m.Map<UserResponse>(createdUserModel)).Returns(response);
+
+        // Act
+        var result = await _controller.CreateUser();
+
+        // Assert
+        var createdAtResult = result.Result as CreatedAtActionResult;
+        Assert.IsNotNull(createdAtResult);
+        Assert.AreEqual(nameof(_controller.GetUser), createdAtResult.ActionName);
+        var returnedResponse = createdAtResult.Value as UserResponse;
+        Assert.IsNotNull(returnedResponse);
+        Assert.AreEqual(response.Uid, returnedResponse.Uid);
     }
 
     [TestMethod]
