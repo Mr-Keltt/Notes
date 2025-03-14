@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>1c525be6-a74b-4843-981f-9933f5b55ffe</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.2" />
+    <PackageReference Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="9.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Application\Models\Notes.Models\Notes.Models.csproj" />
+    <ProjectReference Include="..\..\..\Application\Services\Notes.Services.Logger\Notes.Services.Logger.csproj" />
+    <ProjectReference Include="..\..\..\Application\Services\Notes.Services.NoteData\Notes.Services.NoteData.csproj" />
+    <ProjectReference Include="..\..\..\Application\Services\Notes.Services.Photo\Notes.Services.Photo.csproj" />
+    <ProjectReference Include="..\..\..\Application\Services\Notes.Services.Settings\Notes.Services.Settings.csproj" />
+    <ProjectReference Include="..\..\..\Application\Services\Notes.Services.User\Notes.Services.User.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\Data\Migrations\Notes.Context.Migrations.PgSql\Notes.Context.Migrations.PgSql.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\Data\Notes.Context.Seeder\Notes.Context.Seeder.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\Data\Notes.Context\Notes.Context.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Notes.Common\Notes.Common.csproj" />
+  </ItemGroup>
+
+</Project>

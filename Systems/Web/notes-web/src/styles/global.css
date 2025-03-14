@@ -1,0 +1,12 @@
+/* src/styles/global.css */
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: #ffffff;
+  }
+  
+  /* Новый класс, чтобы сдвинуть контент вниз на высоту header */
+  .main-content {
+    padding-top: 100px; /* 100px — высота header, подберите под вашу ситуацию */
+  }
+  

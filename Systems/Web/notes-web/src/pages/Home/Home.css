@@ -1,0 +1,22 @@
+/* src/pages/Home/Home.css */
+.container {
+    max-width: 1200px;
+    margin: 100px auto 80px;
+    padding: 0 1rem;
+  }
+  
+  .notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 350px);
+    grid-auto-rows: 113px;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  .no-notes {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #555;
+    margin-top: 2rem;
+  }
+  

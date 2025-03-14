@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  notes_postgresql:
+    image: postgres:latest
+    
+  notes_api:
+    image: ${DOCKER_REGISTRY-}notes-api
+    build:
+        context: .
+        dockerfile: Systems/API/Notes.API/Dockerfile
+    depends_on:
+      - notes_postgresql
+
+  notes_web:
+    image: ${DOCKER_REGISTRY-}notes-web
+    build:
+      context: ./Systems/Web/notes-web
+      dockerfile: Dockerfile
+    depends_on:
+      - notes_api
+      - notes_postgresql
