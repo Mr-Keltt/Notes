@@ -67,7 +67,7 @@ const Home = () => {
                 checked={showOnlyMarked}
                 onChange={() => setShowOnlyMarked(prev => !prev)}
               />
-              {' '}опказывать только избраные
+              {' '}Показывать только избраные
             </label>
           </div>
           {filteredNotes.length > 0 ? (
