@@ -1,10 +1,16 @@
 // src/pages/NoteEditor/NoteEditor.jsx
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import { useActiveUserContext } from '../../context/ActiveUserContext';
 import './NoteEditor.css';
 
+/**
+ * NoteEditor Component
+ * Renders a form for creating or editing a note.
+ * It fetches note data in edit mode and saves updates or new notes.
+ */
 const NoteEditor = () => {
   const { noteId } = useParams();
   const navigate = useNavigate();
@@ -16,7 +22,7 @@ const NoteEditor = () => {
   const [marked, setMarked] = useState(false);
   const [images, setImages] = useState([]);
 
-  // При редактировании загружаем данные заметки с сервера
+  // Fetch note data if in edit mode
   useEffect(() => {
     if (isEditMode) {
       const fetchNote = async () => {
@@ -30,7 +36,7 @@ const NoteEditor = () => {
           setTitle(note.title);
           setText(note.text);
           setMarked(note.marked);
-          setImages(note.photos || []); // предполагаем, что изображения возвращаются в поле photos
+          setImages(note.photos || []);
         } catch (error) {
           console.error(error);
           alert('Ошибка загрузки заметки');
@@ -40,17 +46,18 @@ const NoteEditor = () => {
     }
   }, [isEditMode, noteId]);
 
+  // Handle attach photo action
   const handleAttachPhoto = () => {
-    // Здесь можно реализовать открытие диалога выбора файлов
-    alert('Функция прикрепления фото');
+    alert('Будет скоро!');
   };
 
+  // Remove an image from the list by uid
   const handleDeleteImage = (uid) => {
     setImages(prev => prev.filter(img => img.uid !== uid));
   };
 
+  // Save or update note data
   const handleSaveNote = async () => {
-    // Валидация: название заметки не должно быть пустым или состоять только из пробелов
     if (title.trim().length === 0) {
       alert('Название заметки не может быть пустым');
       return;
@@ -59,7 +66,6 @@ const NoteEditor = () => {
     try {
       const baseUrl = process.env.Main__PublicUrl || 'http://localhost:10000';
       if (isEditMode) {
-        // Режим редактирования – PUT-запрос
         const response = await fetch(`${baseUrl}/api/Notes/${noteId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -69,7 +75,6 @@ const NoteEditor = () => {
           throw new Error('Ошибка обновления заметки');
         }
       } else {
-        // Режим создания – проверяем наличие активного пользователя
         if (!activeUser) {
           alert('Не выбран активный пользователь');
           return;
@@ -83,7 +88,7 @@ const NoteEditor = () => {
           throw new Error('Ошибка создания заметки');
         }
       }
-      // После успешного сохранения переходим на главную страницу
+
       navigate('/');
     } catch (error) {
       console.error(error);
