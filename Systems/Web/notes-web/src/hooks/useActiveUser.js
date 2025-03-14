@@ -18,7 +18,7 @@ export function useActiveUser(userList) {
     }
     const now = Date.now();
     const oneHour = 3600000; // 1 час в мс
-    // Если сохранённое значение существует и не устарело
+
     if (storedData && storedData.timestamp && now - storedData.timestamp < oneHour) {
       const exists = userList.find(user => user.guid === storedData.id);
       if (exists) {
@@ -26,7 +26,7 @@ export function useActiveUser(userList) {
         return;
       }
     }
-    // Если нет активного пользователя или сохранённого нет/устарело – берем первого в списке (если есть)
+
     if (userList.length > 0) {
       setActiveUserState(userList[0].guid);
       localStorage.setItem(

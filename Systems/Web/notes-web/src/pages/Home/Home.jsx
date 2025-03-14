@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import NoteCard from '../../components/NoteCard/NoteCard';
-import AddNoteButton from '../../components/AddNoteButton/AddNoteButton';
+import AddButton from '../../components/AddButton/AddButton';
 import { useActiveUserContext } from '../../context/ActiveUserContext';
 import './Home.css';
 
@@ -24,13 +24,13 @@ const sampleNotes = [
   },
   {
     uid: '4',
-    title: 'Третья заметка',
-    text: 'Короткий текст заметки.',
+    title: 'Четвёртая заметка',
+    text: 'Еще один пример заметки.',
   },
   {
     uid: '5',
-    title: 'Третья заметка',
-    text: 'Короткий текст заметки.',
+    title: 'Пятая заметка',
+    text: 'Текст заметки.',
   },
 ];
 
@@ -39,7 +39,8 @@ const Home = () => {
   const { activeUser } = useActiveUserContext();
 
   const handleAddNote = () => {
-    alert('Добавить новую заметку');
+    // Например, переход на страницу создания заметки
+    navigate('/note/new');
   };
 
   const handleCardClick = (noteId) => {
@@ -58,7 +59,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <AddNoteButton onClick={handleAddNote} />
+      <AddButton onClick={handleAddNote} />
     </>
   );
 };
