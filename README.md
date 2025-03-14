@@ -33,8 +33,8 @@
 1. **Клонируйте репозиторий:**
 
    ```bash
-   git clone https://your-repository-url.git
-   cd your-repository-folder
+   [git clone https://your-repository-url.git](https://github.com/Mr-Keltt/Notes.git)
+   cd your-folder
    ```
 
 2. **Запуск приложения:**
