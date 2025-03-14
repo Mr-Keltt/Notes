@@ -1,87 +1,88 @@
-/* Контейнер всей страницы заметки */
+/* Container for the entire note details page */
 .note-details-container {
-    max-width: 1200px;
-    margin: 100px auto 80px;
-    padding: 0 1rem;
-  }
-  
-  /* Заголовок заметки */
-  .note-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-  
-  .note-title-section {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .note-title {
-    font-size: 2rem;
-    margin: 0;
-  }
-  
-  .note-date {
-    font-size: 0.9rem;
-    color: #888;
-    margin-top: 0.5rem;
-  }
-  
-  .note-header-actions button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.5rem;
-    margin-left: 0.5rem;
-  }
-  
-  /* Контейнер заметки (обёртка для текста и изображений) с обводкой, тенью и скруглением */
-  .note-content {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Панель с полным текстом заметки – без обводки, тени и скругления */
-  .note-fulltext-panel {
-    margin-bottom: 1rem;
-  }
-  
-  /* Сетка для изображений */
-  .note-images-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 150px);
-    grid-auto-rows: 150px;
-    gap: 1rem;
-    margin-top: 0.5rem;
-  }
-  
-  /* Обёртка для каждой картинки – подложка с белым фоном, границей, тенью и скруглением */
-  .image-wrapper {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Стили для изображения внутри подложки */
-  .image-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  
+  max-width: 1200px;
+  margin: 100px auto 80px;
+  padding: 0 1rem;
+}
+
+/* Note header with title and action buttons */
+.note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Title section with note title and date */
+.note-title-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.note-title {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.note-date {
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: 0.5rem;
+}
+
+/* Header action buttons styling */
+.note-header-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  margin-left: 0.5rem;
+}
+
+/* Note content container styling */
+.note-content {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Panel for full note text */
+.note-fulltext-panel {
+  margin-bottom: 1rem;
+}
+
+/* Grid layout for note images */
+.note-images-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 150px);
+  grid-auto-rows: 150px;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* Wrapper for each image */
+.image-wrapper {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Image styling */
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+}

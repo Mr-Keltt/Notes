@@ -1,27 +1,28 @@
 /* src/components/Header/Header.css */
+
+/* Styling for the header */
 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: #2ea44f; /* лаймовый цвет */
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 2rem;
-    /* Усиленная тень для header */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
-  }
-  
-  .user-change-btn {
-    padding: 0.75rem 1.5rem;
-    border: 2px solid #ffffff;
-    border-radius: 8px;
-    background: transparent;
-    color: #ffffff;
-    font-size: 1rem;
-    cursor: pointer;
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #2ea44f; /* lime green */
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* enhanced shadow */
+  z-index: 1000;
+}
+
+/* Styling for the user change button */
+.user-change-btn {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #ffffff;
+  border-radius: 8px;
+  background: transparent;
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+}

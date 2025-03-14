@@ -1,3 +1,5 @@
+// src/pages/UserSelection/UserSelection.jsx
+
 import React from 'react';
 import Header from '../../components/Header/Header';
 import AddButton from '../../components/AddButton/AddButton';
@@ -6,9 +8,15 @@ import WarningBanner from '../../components/WarningBanner/WarningBanner';
 import { useActiveUserContext } from '../../context/ActiveUserContext';
 import './UserSelection.css';
 
+/**
+ * UserSelection Component
+ * Allows users to be created, selected, and deleted.
+ * Displays a warning banner explaining the lack of authentication features.
+ */
 const UserSelection = () => {
   const { activeUser, updateActiveUser, users, addUser, deleteUser } = useActiveUserContext();
 
+  // Create a new user via API call and update the context
   const handleAddUser = async () => {
     try {
       const baseUrl = process.env.Main__PublicUrl || 'http://localhost:10000';
@@ -30,6 +38,7 @@ const UserSelection = () => {
     }
   };
 
+  // Delete the selected user using the context's delete function
   const handleDeleteUser = async (guid) => {
     await deleteUser(guid);
   };
@@ -38,6 +47,7 @@ const UserSelection = () => {
     <>
       <Header showBack={true} />
       <div className="main-content">
+        {/* Warning banner explaining the user management feature */}
         <WarningBanner 
           text="Так как в ТЗ не было указано требований к авторизации и аутентификации, я просто сделал возможность создавать, выбирать и удалять пользователей для всех желающих" 
         />

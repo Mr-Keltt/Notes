@@ -1,18 +1,22 @@
+// WarningBanner component: displays a dismissible warning banner with persistence.
+
 import React, { useState, useEffect } from 'react';
 import './WarningBanner.css';
 
 const STORAGE_KEY = 'warningBannerClosed';
-const ONE_HOUR = 3600000; // 1 час в миллисекундах
+const ONE_HOUR = 3600000; // One hour in milliseconds
 
 const WarningBanner = ({ text }) => {
+  // Local state to track banner visibility
   const [isVisible, setIsVisible] = useState(true);
 
+  // Check localStorage for previous dismissal on mount
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       try {
         const data = JSON.parse(stored);
-        // Если плашка закрыта и сохранённое время меньше часа назад – скрываем её
+        // If the banner was closed less than an hour ago, hide it
         if (data.closed && Date.now() - data.timestamp < ONE_HOUR) {
           setIsVisible(false);
         } else {
@@ -24,6 +28,7 @@ const WarningBanner = ({ text }) => {
     }
   }, []);
 
+  // Close banner and store the dismissal timestamp
   const handleClose = () => {
     setIsVisible(false);
     localStorage.setItem(

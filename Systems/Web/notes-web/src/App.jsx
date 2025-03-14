@@ -1,3 +1,5 @@
+// src/App.jsx
+
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
@@ -7,6 +9,10 @@ import NoteEditor from './pages/NoteEditor/NoteEditor';
 import { ActiveUserProvider } from './context/ActiveUserContext';
 import './styles/global.css';
 
+/**
+ * App Component
+ * Wraps the application with ActiveUserProvider and sets up routing.
+ */
 function App() {
   return (
     <ActiveUserProvider>
