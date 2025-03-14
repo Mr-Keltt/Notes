@@ -1,8 +1,15 @@
 ﻿using Notes.Context.Entities.Common;
 
-namespace Notes.Context.Entities;
-
-public class UserEntity : BaseEntity
+namespace Notes.Context.Entities
 {
-    public virtual ICollection<NoteDataEntity> NotesDatas { get; set; }
+    /// <summary>
+    /// Represents a user entity that stores user-specific information and the associated notes.
+    /// </summary>
+    public class UserEntity : BaseEntity
+    {
+        /// <summary>
+        /// Gets or sets the collection of notes associated with the user.
+        /// </summary>
+        public virtual ICollection<NoteDataEntity> NotesDatas { get; set; }
+    }
 }

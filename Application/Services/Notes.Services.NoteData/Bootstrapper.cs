@@ -1,14 +1,24 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Notes.Services.NoteData;
-
-public static class Bootstrapper
+namespace Notes.Services.NoteData
 {
-    public static IServiceCollection AddNoteDataService(this IServiceCollection services)
+    /// <summary>
+    /// Provides an extension method to register the NoteDataService with the application's dependency injection container.
+    /// </summary>
+    public static class Bootstrapper
     {
-        services.AddScoped<INoteDataService, NoteDataService>();
+        /// <summary>
+        /// Registers the INoteDataService interface and its implementation NoteDataService with the service collection.
+        /// </summary>
+        /// <param name="services">The service collection to add the service registration to.</param>
+        /// <returns>The updated service collection with the NoteDataService registration.</returns>
+        public static IServiceCollection AddNoteDataService(this IServiceCollection services)
+        {
+            // Register NoteDataService as a scoped service for dependency injection.
+            services.AddScoped<INoteDataService, NoteDataService>();
 
-        return services;
+            // Return the modified service collection to support method chaining.
+            return services;
+        }
     }
 }
-

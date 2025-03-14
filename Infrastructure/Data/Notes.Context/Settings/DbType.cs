@@ -1,7 +1,13 @@
-﻿namespace Notes.Context;
-
-
-public enum DbType
+﻿namespace Notes.Context
 {
-    PgSql = 0
+    /// <summary>
+    /// Enumerates the supported database types.
+    /// </summary>
+    public enum DbType
+    {
+        /// <summary>
+        /// Represents a PostgreSQL database.
+        /// </summary>
+        PgSql = 0
+    }
 }
