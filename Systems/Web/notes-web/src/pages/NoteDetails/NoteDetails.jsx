@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+// src/pages/NoteDetails/NoteDetails.jsx
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import ModalImage from '../../components/ModalImage/ModalImage';
+import { deleteNote } from '../../helpers/deleteNote';
 import './NoteDetails.css';
 
-// Функция форматирования даты в формате dd.mm.yyyy
+// Форматирование даты в формате dd.mm.yyyy
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   const dd = String(date.getDate()).padStart(2, '0');
@@ -13,24 +15,33 @@ const formatDate = (dateString) => {
   return `${dd}.${mm}.${yyyy}`;
 };
 
-// Dummy данные для примера
-const dummyNote = {
-  uid: '1',
-  title: 'Пример заметки',
-  text: 'Полный текст заметки, который может быть длинным и содержать много информации. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus interdum sollicitudin purus, id ullamcorper turpis bibendum ac. Sed ut dui nec urna facilisis consequat.',
-  dateChange: '2025-03-13T18:21:01.919Z',
-  images: [
-    { uid: 'img1', url: 'https://via.placeholder.com/300' },
-    { uid: 'img2', url: 'https://via.placeholder.com/300' },
-    { uid: 'img3', url: 'https://via.placeholder.com/300' },
-  ]
-};
-
 const NoteDetails = () => {
   const { noteId } = useParams();
   const navigate = useNavigate();
-  const note = dummyNote; // Здесь данные для примера
+  
+  const [note, setNote] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [modalImage, setModalImage] = useState(null);
+
+  useEffect(() => {
+    const fetchNote = async () => {
+      try {
+        const baseUrl = process.env.Main__PublicUrl || 'http://localhost:10000';
+        const response = await fetch(`${baseUrl}/api/Notes/${noteId}`);
+        if (!response.ok) {
+          throw new Error('Ошибка при загрузке заметки');
+        }
+        const data = await response.json();
+        setNote(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchNote();
+  }, [noteId]);
 
   const openImageModal = (src) => {
     setModalImage(src);
@@ -39,6 +50,22 @@ const NoteDetails = () => {
   const closeImageModal = () => {
     setModalImage(null);
   };
+
+  const handleDeleteNote = async () => {
+    if (window.confirm("Вы уверены, что хотите удалить заметку?")) {
+      try {
+        await deleteNote(noteId);
+        navigate('/');
+      } catch (error) {
+        console.error(error);
+        alert(error.message);
+      }
+    }
+  };
+
+  if (loading) return <div>Загрузка...</div>;
+  if (error) return <div>Ошибка: {error}</div>;
+  if (!note) return <div>Заметка не найдена</div>;
 
   return (
     <>
@@ -58,7 +85,7 @@ const NoteDetails = () => {
             </button>
             <button 
               className="delete-btn" 
-              onClick={() => alert('Удалить заметку')}
+              onClick={handleDeleteNote}
             >
               ❌
             </button>
@@ -69,7 +96,7 @@ const NoteDetails = () => {
             <p>{note.text}</p>
           </div>
           <div className="note-images-grid">
-            {note.images.map((image) => (
+            {note.photos && note.photos.map((image) => (
               <div className="image-wrapper" key={image.uid}>
                 <img
                   src={image.url}

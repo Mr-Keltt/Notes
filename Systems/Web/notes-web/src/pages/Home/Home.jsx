@@ -1,4 +1,5 @@
-import React from 'react';
+// src/pages/Home/Home.jsx
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import NoteCard from '../../components/NoteCard/NoteCard';
@@ -6,40 +7,31 @@ import AddButton from '../../components/AddButton/AddButton';
 import { useActiveUserContext } from '../../context/ActiveUserContext';
 import './Home.css';
 
-const sampleNotes = [
-  {
-    uid: '1',
-    title: 'Первая заметка',
-    text: 'Это пример заметки, которая содержит достаточно текста, чтобы показать, как работает обрезка текста с троеточием...',
-  },
-  {
-    uid: '2',
-    title: 'Вторая заметка',
-    text: 'Здесь ещё один пример заметки для демонстрации адаптивной сетки карточек. Текст ограничен тремя строками...',
-  },
-  {
-    uid: '3',
-    title: 'Третья заметка',
-    text: 'Короткий текст заметки.',
-  },
-  {
-    uid: '4',
-    title: 'Четвёртая заметка',
-    text: 'Еще один пример заметки.',
-  },
-  {
-    uid: '5',
-    title: 'Пятая заметка',
-    text: 'Текст заметки.',
-  },
-];
-
 const Home = () => {
   const navigate = useNavigate();
   const { activeUser } = useActiveUserContext();
+  const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    if (activeUser) {
+      const fetchNotes = async () => {
+        try {
+          const baseUrl = process.env.Main__PublicUrl || 'http://localhost:10000';
+          const response = await fetch(`${baseUrl}/api/Notes?userId=${activeUser}`);
+          if (!response.ok) {
+            throw new Error('Ошибка при загрузке заметок');
+          }
+          const data = await response.json();
+          setNotes(data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchNotes();
+    }
+  }, [activeUser]);
 
   const handleAddNote = () => {
-    // Например, переход на страницу создания заметки
     navigate('/note/new');
   };
 
@@ -47,16 +39,29 @@ const Home = () => {
     navigate(`/note/${noteId}`);
   };
 
+  const handleDeleteNote = (deletedNoteId) => {
+    setNotes(prevNotes => prevNotes.filter(note => note.uid !== deletedNoteId));
+  };
+
   return (
     <>
       <Header />
       <div className="main-content">
         <div className="container">
-          <div className="notes-grid">
-            {sampleNotes.map(note => (
-              <NoteCard key={note.uid} note={note} onClick={handleCardClick} />
-            ))}
-          </div>
+          {notes.length > 0 ? (
+            <div className="notes-grid">
+              {notes.map(note => (
+                <NoteCard 
+                  key={note.uid} 
+                  note={note} 
+                  onCardClick={handleCardClick}
+                  onDelete={handleDeleteNote}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="no-users">Заметки отсутствуют</div>
+          )}
         </div>
       </div>
       <AddButton onClick={handleAddNote} />

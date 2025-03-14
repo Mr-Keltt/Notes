@@ -13,3 +13,10 @@
     justify-content: center;
   }
   
+  .no-notes {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #555;
+    margin-top: 2rem;
+  }
+  
