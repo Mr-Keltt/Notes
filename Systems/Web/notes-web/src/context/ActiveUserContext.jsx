@@ -1,13 +1,23 @@
+// ActiveUserContext: provides state management for the active user and the list of users.
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
+// Create a Context for the active user
 const ActiveUserContext = createContext();
 
+// Key for localStorage to persist active user data
 const STORAGE_KEY = 'activeUser';
 
+/**
+ * ActiveUserProvider Component
+ * Wraps children with context providing active user, list of users, and related actions.
+ */
 export const ActiveUserProvider = ({ children }) => {
+  // State for the active user and list of users
   const [activeUser, setActiveUser] = useState(null);
   const [users, setUsers] = useState([]);
 
+  // Fetch users from API and store them in state
   const loadUsers = async () => {
     try {
       const baseUrl = process.env.Main__PublicUrl || 'http://localhost:10000';
@@ -26,10 +36,12 @@ export const ActiveUserProvider = ({ children }) => {
     }
   };
 
+  // Load users when component mounts
   useEffect(() => {
     loadUsers();
   }, []);
 
+  // Set active user based on localStorage data or default to the first user
   useEffect(() => {
     const now = Date.now();
     const oneHour = 3600000;
@@ -58,6 +70,7 @@ export const ActiveUserProvider = ({ children }) => {
     }
   }, [users]);
 
+  // Update active user and store change in localStorage
   const updateActiveUser = (id) => {
     const now = Date.now();
     setActiveUser(id);
@@ -67,11 +80,13 @@ export const ActiveUserProvider = ({ children }) => {
     );
   };
 
+  // Add a new user to the list and update active user
   const addUser = (newUser) => {
     setUsers(prev => [...prev, { guid: newUser.uid }]);
     updateActiveUser(newUser.uid);
   };
 
+  // Delete a user from the list and update active user accordingly
   const deleteUser = async (id) => {
     try {
       const baseUrl = process.env.Main__PublicUrl || 'http://localhost:10000';
@@ -104,4 +119,5 @@ export const ActiveUserProvider = ({ children }) => {
   );
 };
 
+// Custom hook for using ActiveUserContext
 export const useActiveUserContext = () => useContext(ActiveUserContext);

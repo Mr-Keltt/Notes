@@ -1,12 +1,14 @@
+/* Container for user cards and content */
 .container {
-    max-width: 1200px;
-    margin: 0 auto 80px;
-    padding: 0 1rem;
-  }
-  
-  .no-users {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #555;
-    margin-top: 2rem;
-  }
+  max-width: 1200px;
+  margin: 0 auto 80px;
+  padding: 0 1rem;
+}
+
+/* Message displayed when no users are available */
+.no-users {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #555;
+  margin-top: 2rem;
+}
