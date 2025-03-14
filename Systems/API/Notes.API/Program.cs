@@ -2,6 +2,7 @@ using Notes.API;
 using Notes.API.Configuration;
 using Notes.Services.Settings;
 using Notes.Context;
+using ZooExpoOrg.Context;
 
 var mainSettings = Notes.Common.Settings.Settings.Load<MainSettings>("Main");
 var logSettings = Notes.Common.Settings.Settings.Load<LogSettings>("Log");
@@ -42,5 +43,7 @@ app.UseAppHealthChecks();
 app.UseAppSwagger();
 
 DbInitializer.Execute(app.Services);
+
+DbSeeder.Execute(app.Services);
 
 app.Run();

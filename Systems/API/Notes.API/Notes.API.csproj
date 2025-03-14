@@ -33,6 +33,7 @@
     <ProjectReference Include="..\..\..\Application\Services\Notes.Services.Settings\Notes.Services.Settings.csproj" />
     <ProjectReference Include="..\..\..\Application\Services\Notes.Services.User\Notes.Services.User.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\Data\Migrations\Notes.Context.Migrations.PgSql\Notes.Context.Migrations.PgSql.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\Data\Notes.Context.Seeder\Notes.Context.Seeder.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\Data\Notes.Context\Notes.Context.csproj" />
     <ProjectReference Include="..\..\..\Shared\Notes.Common\Notes.Common.csproj" />
   </ItemGroup>
