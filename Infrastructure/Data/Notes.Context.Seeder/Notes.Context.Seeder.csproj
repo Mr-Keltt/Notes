@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Application\Models\Notes.Models\Notes.Models.csproj" />
+    <ProjectReference Include="..\..\..\Application\Services\Notes.Services.NoteData\Notes.Services.NoteData.csproj" />
+    <ProjectReference Include="..\..\..\Application\Services\Notes.Services.Photo\Notes.Services.Photo.csproj" />
+    <ProjectReference Include="..\..\..\Application\Services\Notes.Services.User\Notes.Services.User.csproj" />
+    <ProjectReference Include="..\..\Repositories\Notes.Entities\Notes.Entities.csproj" />
+    <ProjectReference Include="..\Notes.Context\Notes.Context.csproj" />
+  </ItemGroup>
+
+</Project>
